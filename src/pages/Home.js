@@ -3,20 +3,27 @@ import axios from "axios";
 
 import AppContext from "../Context";
 
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setValueFilter } from "../redux/slices/filterSlice";
+
 import Сategories from "../components/Сategories/index";
 import Pagination from "../components/Pagination/Pagination";
 import PizzaBlock from "../components/Pizza-block";
 
 function Home() {
+  const dispatch = useDispatch();
   const { valueSeacrh, visibleItems, setItemsPizza, setValueSeacrh } =
     useContext(AppContext);
 
   //Loading items per page
   const [loadingItems, setLoadingItems] = React.useState(true);
 
-  //Categories
+  //Filter and sort
+  const valueFilter = useSelector((state) => state.filter.valueFilter);
+  console.log(valueFilter);
   const [valueSort, setValueSort] = React.useState(0);
-  const [valueFilter, setValueFilter] = React.useState(0);
+  // const [valueFilter, setValueFilter] = React.useState(0);
   const [urlParametrSort, setUrlParametrSort] = React.useState(
     "sortBy=rating&order=desc"
   );
@@ -49,7 +56,7 @@ function Home() {
     window.scrollTo(0, 0);
   }
 
-  // Sort
+  // Sort;
   React.useEffect(() => {
     setCurrentPage(1);
     valueSort === 0 && setUrlParametrSort("sortBy=rating&order=desc");
@@ -60,14 +67,14 @@ function Home() {
   // Filter
   React.useEffect(() => {
     if (valueSeacrh !== "") {
-      setValueFilter(0);
+      dispatch(setValueFilter(0));
     }
     if (valueFilter === 0) {
       setUrlParametrFilter(``);
     } else setUrlParametrFilter(`category=${valueFilter}`);
-  }, [valueFilter, valueSeacrh]);
+  }, [valueFilter, valueSeacrh, dispatch]);
 
-  //Pagination
+  // Pagination
   React.useEffect(() => {
     setCurrentPage(1);
   }, [valueFilter]);
@@ -88,7 +95,6 @@ function Home() {
           valueSort,
           setValueSort,
           valueFilter,
-          setValueFilter,
           setValueSeacrh,
           visibleItems,
           loadingItems,

@@ -1,19 +1,19 @@
 import React from "react";
 import AppContext from "../../Context";
 
+import { useDispatch } from "react-redux";
+import { setValueFilter } from "../../redux/slices/filterSlice";
+
 function Сategories() {
-  const {
-    valueSort,
-    setValueSort,
-    valueFilter,
-    setValueFilter,
-    setValueSeacrh,
-  } = React.useContext(AppContext);
+  const dispatch = useDispatch();
+
+  const { valueSort, setValueSort, valueFilter, setValueSeacrh } =
+    React.useContext(AppContext);
 
   const [stateDropDown, setStateDropDown] = React.useState(false);
 
-  const categoriesSort = ["популярности", "цене", "алфавиту"];
-  const categoriesFilter = [
+  const sort = ["популярности", "цене", "алфавиту"];
+  const filter = [
     "Все",
     "Мясные",
     "Вегетарианская",
@@ -23,13 +23,13 @@ function Сategories() {
   ];
 
   return (
-    <div className="categories">
+    <div className="filter-sort">
       <div className="filter">
-        {categoriesFilter.map((elem, index) => (
+        {filter.map((elem, index) => (
           <button
             key={index}
             onClick={() => {
-              setValueFilter(index);
+              dispatch(setValueFilter(index));
               setValueSeacrh("");
             }}
             className={valueFilter === index ? "active" : ""}
@@ -53,14 +53,12 @@ function Сategories() {
             )}
             <div className="text">
               <span>Сортировка по:&nbsp;</span>
-              <span className="dropdown-select">
-                {categoriesSort[valueSort]}
-              </span>
+              <span className="dropdown-select">{sort[valueSort]}</span>
             </div>
           </button>
           {stateDropDown && (
             <ul className="dropdown-menu">
-              {categoriesSort.map((item, index) => (
+              {sort.map((item, index) => (
                 <button
                   key={index}
                   onClick={() => {
