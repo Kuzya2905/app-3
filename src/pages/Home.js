@@ -38,50 +38,52 @@ function Home() {
 
   //Get items from backend
   React.useEffect(() => {
-    getItems(urlParametrSort, urlParametrFilter, setItemsPizza);
-  }, [urlParametrSort, urlParametrFilter, setItemsPizza]);
-
-  async function getItems(urlParametr1, urlParamet2, setItemsPizza) {
-    try {
-      setLoadingItems(true);
-      const { data } = await axios.get(
-        `https://65776583197926adf62e373f.mockapi.io/Items?${urlParametr1}&${urlParamet2}`
-      );
-      setItemsPizza(data);
-      setLoadingItems(false);
-    } catch (error) {
-      alert("Что-то пошло не так");
-      console.error("Ошибка запроса данных");
+    async function getItems() {
+      try {
+        setLoadingItems(true);
+        const { data } = await axios.get(
+          `https://65776583197926adf62e373f.mockapi.io/Items?${urlParametrSort}&${urlParametrFilter}`
+        );
+        setItemsPizza(data);
+        setLoadingItems(false);
+      } catch (error) {
+        alert("Что-то пошло не так");
+        console.error("Ошибка запроса данных");
+      }
+      window.scrollTo(0, 0);
     }
-    window.scrollTo(0, 0);
-  }
+    getItems();
+  }, [urlParametrSort, urlParametrFilter, setItemsPizza]);
 
   // Sort;
   React.useEffect(() => {
-    setCurrentPage(1);
-    valueSort === 0 && setUrlParametrSort("sortBy=rating&order=desc");
-    valueSort === 1 && setUrlParametrSort("sortBy=price&order=desc");
-    valueSort === 2 && setUrlParametrSort("sortBy=title&order=asc");
+    const changeSort = () => {
+      setCurrentPage(1);
+      valueSort === 0 && setUrlParametrSort("sortBy=rating&order=desc");
+      valueSort === 1 && setUrlParametrSort("sortBy=price&order=desc");
+      valueSort === 2 && setUrlParametrSort("sortBy=title&order=asc");
+    };
+    changeSort();
   }, [valueSort]);
 
   // Filter
   React.useEffect(() => {
-    if (valueSeacrh !== "") {
-      dispatch(setValueFilter(0));
-    }
-    if (valueFilter === 0) {
-      setUrlParametrFilter(``);
-    } else setUrlParametrFilter(`category=${valueFilter}`);
+    const changeFilter = () => {
+      if (valueSeacrh !== "") {
+        dispatch(setValueFilter(0));
+      }
+      if (valueFilter === 0) {
+        setUrlParametrFilter(``);
+      } else setUrlParametrFilter(`category=${valueFilter}`);
+    };
+    changeFilter();
   }, [valueFilter, valueSeacrh, dispatch]);
 
   // Pagination
   React.useEffect(() => {
     setCurrentPage(1);
-  }, [valueFilter]);
-
-  React.useEffect(() => {
-    setCurrentPage(1);
-  }, [valueSeacrh]);
+  }, [valueFilter, valueSeacrh]);
+  //
 
   function paginate(pageNumber) {
     setCurrentPage(pageNumber);
