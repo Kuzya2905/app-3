@@ -10,7 +10,8 @@ function App() {
   const [itemsPizza, setItemsPizza] = React.useState([]);
   const [visibleItems, setVisibleItems] = React.useState([]);
 
-  const [valueSeacrh, setValueSeacrh] = React.useState("");
+  const [valueSearch, setValueSearch] = React.useState("");
+
   return (
     <div className="App">
       <div className="canvas">
@@ -19,8 +20,8 @@ function App() {
             value={{
               itemsPizza,
               setItemsPizza,
-              valueSeacrh,
-              setValueSeacrh,
+              valueSearch,
+              setValueSearch,
               visibleItems,
               setVisibleItems,
             }}

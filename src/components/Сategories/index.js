@@ -2,13 +2,15 @@ import React from "react";
 import AppContext from "../../Context";
 
 import { useDispatch } from "react-redux";
-import { setValueFilter } from "../../redux/slices/filterSlice";
+import { useSelector } from "react-redux";
+import { setValueFilter, setValueSort } from "../../redux/slices/categories";
 
 function Сategories() {
+  const { valueFilter, valueSort } = useSelector((state) => state.categories);
+
   const dispatch = useDispatch();
 
-  const { valueSort, setValueSort, valueFilter, setValueSeacrh } =
-    React.useContext(AppContext);
+  const { setValueSearch } = React.useContext(AppContext);
 
   const [stateDropDown, setStateDropDown] = React.useState(false);
 
@@ -30,7 +32,7 @@ function Сategories() {
             key={index}
             onClick={() => {
               dispatch(setValueFilter(index));
-              setValueSeacrh("");
+              setValueSearch("");
             }}
             className={valueFilter === index ? "active" : ""}
           >
@@ -62,7 +64,7 @@ function Сategories() {
                 <button
                   key={index}
                   onClick={() => {
-                    setValueSort(index);
+                    dispatch(setValueSort(index));
                     setStateDropDown((prev) => !prev);
                   }}
                   className="dropdown-item"

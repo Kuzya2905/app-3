@@ -33,7 +33,6 @@ function Card({ title, price, imageUrl, types, sizes }) {
               <button
                 onClick={(e) => {
                   setSizePizza(index);
-                  console.log(e.target);
                 }}
                 className={sizeActivePizza === index ? "active" : ""}
                 key={index}

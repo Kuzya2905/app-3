@@ -2,7 +2,7 @@ import React from "react";
 import AppContext from "../../Context";
 
 function Search() {
-  const { valueSeacrh, setValueSeacrh, setVisibleItems, itemsPizza } =
+  const { valueSearch, setValueSearch, setVisibleItems, itemsPizza } =
     React.useContext(AppContext);
 
   React.useEffect(() => {
@@ -14,8 +14,8 @@ function Search() {
       );
     }
 
-    searchItems(valueSeacrh);
-  }, [valueSeacrh, itemsPizza, setVisibleItems]);
+    searchItems(valueSearch);
+  }, [valueSearch, itemsPizza, setVisibleItems]);
   return (
     <div className="search-panel">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -28,8 +28,8 @@ function Search() {
       <input
         className="search"
         placeholder="Поиск пиццы..."
-        onChange={(event) => setValueSeacrh(event.target.value)}
-        value={valueSeacrh}
+        onChange={(event) => setValueSearch(event.target.value)}
+        value={valueSearch}
         type="search"
       />
     </div>

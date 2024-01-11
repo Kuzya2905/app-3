@@ -1,36 +1,37 @@
 import React, { useContext } from "react";
 import axios from "axios";
+import qs from "qs";
+import { useNavigate } from "react-router-dom";
 
 import AppContext from "../Context";
 
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { setValueFilter } from "../redux/slices/filterSlice";
+import { setValueFilter } from "../redux/slices/categories";
+import { setCurrentPage } from "../redux/slices/pagination";
 
 import Сategories from "../components/Сategories/index";
 import Pagination from "../components/Pagination/Pagination";
 import PizzaBlock from "../components/Pizza-block";
 
 function Home() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { valueSeacrh, visibleItems, setItemsPizza, setValueSeacrh } =
+  const { valueSearch, visibleItems, setItemsPizza, setValueSearch } =
     useContext(AppContext);
 
   //Loading items per page
   const [loadingItems, setLoadingItems] = React.useState(true);
 
   //Filter and sort
-  const valueFilter = useSelector((state) => state.filter.valueFilter);
-  console.log(valueFilter);
-  const [valueSort, setValueSort] = React.useState(0);
-  // const [valueFilter, setValueFilter] = React.useState(0);
-  const [urlParametrSort, setUrlParametrSort] = React.useState(
-    "sortBy=rating&order=desc"
-  );
+  const { valueFilter, valueSort } = useSelector((state) => state.categories);
+  const [urlParametrSort, setUrlParametrSort] = React.useState("rating");
+  const [orderSort, setOrderSort] = React.useState("desc");
+
   const [urlParametrFilter, setUrlParametrFilter] = React.useState("");
 
   //Pagintaion
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const currentPage = useSelector((state) => state.pagination.currentPage);
   const [itemsPerPage] = React.useState(4);
   const lastItemIndex = currentPage * itemsPerPage;
   const firstItemIndex = lastItemIndex - itemsPerPage;
@@ -42,7 +43,7 @@ function Home() {
       try {
         setLoadingItems(true);
         const { data } = await axios.get(
-          `https://65776583197926adf62e373f.mockapi.io/Items?${urlParametrSort}&${urlParametrFilter}`
+          `https://65776583197926adf62e373f.mockapi.io/Items?sortBy=${urlParametrSort}&order=${orderSort}&category=${urlParametrFilter}`
         );
         setItemsPizza(data);
         setLoadingItems(false);
@@ -53,51 +54,67 @@ function Home() {
       window.scrollTo(0, 0);
     }
     getItems();
-  }, [urlParametrSort, urlParametrFilter, setItemsPizza]);
+  }, [urlParametrSort, urlParametrFilter, orderSort, setItemsPizza]);
 
   // Sort;
   React.useEffect(() => {
     const changeSort = () => {
-      setCurrentPage(1);
-      valueSort === 0 && setUrlParametrSort("sortBy=rating&order=desc");
-      valueSort === 1 && setUrlParametrSort("sortBy=price&order=desc");
-      valueSort === 2 && setUrlParametrSort("sortBy=title&order=asc");
+      dispatch(setCurrentPage(1));
+      if (valueSort === 0) {
+        setUrlParametrSort("rating");
+        setOrderSort("desc");
+      }
+      if (valueSort === 1) {
+        setUrlParametrSort("price");
+        setOrderSort("desc");
+      }
+      if (valueSort === 2) {
+        setUrlParametrSort("title");
+        setOrderSort("asc");
+      }
     };
     changeSort();
-  }, [valueSort]);
+  }, [valueSort, dispatch]);
 
   // Filter
   React.useEffect(() => {
     const changeFilter = () => {
-      if (valueSeacrh !== "") {
+      if (valueSearch !== "") {
         dispatch(setValueFilter(0));
       }
       if (valueFilter === 0) {
         setUrlParametrFilter(``);
-      } else setUrlParametrFilter(`category=${valueFilter}`);
+      } else setUrlParametrFilter(valueFilter);
     };
     changeFilter();
-  }, [valueFilter, valueSeacrh, dispatch]);
+  }, [valueFilter, valueSearch, dispatch]);
 
   // Pagination
   React.useEffect(() => {
-    setCurrentPage(1);
-  }, [valueFilter, valueSeacrh]);
+    dispatch(setCurrentPage(1));
+  }, [valueFilter, valueSearch, dispatch]);
   //
 
   function paginate(pageNumber) {
-    setCurrentPage(pageNumber);
+    dispatch(setCurrentPage(pageNumber));
   }
-
   //
+
+  React.useEffect(() => {
+    const nameLink = qs.stringify({
+      urlParametrSort,
+      urlParametrFilter,
+      currentPage,
+    });
+    navigate(`?${nameLink}`);
+  }, [urlParametrSort, urlParametrFilter, currentPage, navigate]);
   return (
     <main>
       <AppContext.Provider
         value={{
           valueSort,
-          setValueSort,
           valueFilter,
-          setValueSeacrh,
+          setValueSearch,
           visibleItems,
           loadingItems,
           paginate,
