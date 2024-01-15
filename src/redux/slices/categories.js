@@ -20,17 +20,17 @@ export const categories = createSlice({
       state.currentPage = action.payload;
     },
     setCategories(state, action) {
-      state.valueFilter = Number(action.payload.urlParametrFilter);
-      
+      state.valueFilter = Number(action.payload.urlParameterFilter);
+
       state.currentPage = Number(action.payload.currentPage);
 
-      if (action.payload.urlParametrSort === "rating") {
+      if (action.payload.urlParameterSort === "rating") {
         state.valueSort = 0;
       }
-      if (action.payload.urlParametrSort === "price") {
+      if (action.payload.urlParameterSort === "price") {
         state.valueSort = 1;
       }
-      if (action.payload.urlParametrSort === "title") {
+      if (action.payload.urlParameterSort === "title") {
         state.valueSort = 2;
       }
     },

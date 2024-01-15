@@ -11,7 +11,7 @@ function App() {
   const [visibleItems, setVisibleItems] = React.useState([]);
 
   const [valueSearch, setValueSearch] = React.useState("");
-
+  const [urlLocationSearch, setUrlLocationSearch] = React.useState();
   return (
     <div className="App">
       <div className="canvas">
@@ -24,6 +24,8 @@ function App() {
               setValueSearch,
               visibleItems,
               setVisibleItems,
+              urlLocationSearch,
+              setUrlLocationSearch,
             }}
           >
             <Header />

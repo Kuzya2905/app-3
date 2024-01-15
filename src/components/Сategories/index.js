@@ -3,7 +3,7 @@ import AppContext from "../../Context";
 
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { setValueFilter, setValueSort } from "../../redux/slices/categories";
+import { setValueFilter, setValueSort } from "../../redux/slices/Categories";
 
 function Сategories() {
   const { valueFilter, valueSort } = useSelector((state) => state.categories);

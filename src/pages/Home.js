@@ -11,7 +11,12 @@ import {
   setValueFilter,
   setCurrentPage,
   setCategories,
-} from "../redux/slices/categories";
+} from "../redux/slices/Categories";
+import {
+  setUrlParameterSort,
+  setOrderSort,
+  setUrlParameterFilter,
+} from "../redux/slices/UrlParameters";
 
 import Сategories from "../components/Сategories/index";
 import Pagination from "../components/Pagination/Pagination";
@@ -20,20 +25,25 @@ import PizzaBlock from "../components/Pizza-block";
 function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [urlSearch, setUrlSearch] = useState(false);
+  const [isLocationSearch, setIsLocationSearch] = useState(false);
 
-  const { valueSearch, visibleItems, setItemsPizza, setValueSearch } =
-    useContext(AppContext);
+  const {
+    valueSearch,
+    visibleItems,
+    setItemsPizza,
+    setValueSearch,
+    setUrlLocationSearch,
+  } = useContext(AppContext);
 
   //Loading items per page
   const [loadingItems, setLoadingItems] = React.useState(true);
 
   //Filter and sort
   const { valueFilter, valueSort } = useSelector((state) => state.categories);
-  const [urlParametrSort, setUrlParametrSort] = React.useState("rating");
-  const [orderSort, setOrderSort] = React.useState("desc");
 
-  const [urlParametrFilter, setUrlParametrFilter] = React.useState("");
+  const { urlParameterSort, orderSort, urlParameterFilter } = useSelector(
+    (state) => state.urlParameters
+  );
 
   //Pagintaion
   const currentPage = useSelector((state) => state.categories.currentPage);
@@ -42,13 +52,40 @@ function Home() {
   const firstItemIndex = lastItemIndex - itemsPerPage;
   const currentItems = visibleItems.slice(firstItemIndex, lastItemIndex);
 
+  React.useEffect(() => {
+    if (isLocationSearch) {
+      const nameLink = qs.stringify({
+        urlParameterSort,
+        urlParameterFilter,
+        currentPage,
+      });
+      navigate(`?${nameLink}`);
+      setUrlLocationSearch(`?${nameLink}`);
+    }
+  }, [
+    urlParameterSort,
+    urlParameterFilter,
+    currentPage,
+    isLocationSearch,
+    setUrlLocationSearch,
+    navigate,
+  ]);
+
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.slice(1));
+      dispatch(setCategories(params));
+    }
+    setIsLocationSearch(true);
+  }, [dispatch]);
+
   //Get items from backend
   React.useEffect(() => {
     async function getItems() {
       try {
         setLoadingItems(true);
         const { data } = await axios.get(
-          `https://65776583197926adf62e373f.mockapi.io/Items?sortBy=${urlParametrSort}&order=${orderSort}&category=${urlParametrFilter}`
+          `https://65776583197926adf62e373f.mockapi.io/Items?sortBy=${urlParameterSort}&order=${orderSort}&category=${urlParameterFilter}`
         );
         setItemsPizza(data);
         setLoadingItems(false);
@@ -58,25 +95,17 @@ function Home() {
       }
       window.scrollTo(0, 0);
     }
-    if (urlSearch) {
+    if (isLocationSearch) {
       getItems();
     }
   }, [
-    urlParametrSort,
-    urlParametrFilter,
-    urlSearch,
+    urlParameterSort,
+    urlParameterFilter,
     orderSort,
     setItemsPizza,
+    isLocationSearch,
     dispatch,
   ]);
-
-  React.useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.slice(1));
-      dispatch(setCategories(params));
-    }
-    setUrlSearch(true);
-  }, [dispatch]);
 
   // Pagination
   function paginate(pageNumber) {
@@ -93,16 +122,16 @@ function Home() {
   React.useEffect(() => {
     const changeSort = () => {
       if (valueSort === 0) {
-        setUrlParametrSort("rating");
-        setOrderSort("desc");
+        dispatch(setUrlParameterSort("rating"));
+        dispatch(setOrderSort("desc"));
       }
       if (valueSort === 1) {
-        setUrlParametrSort("price");
-        setOrderSort("desc");
+        dispatch(setUrlParameterSort("price"));
+        dispatch(setOrderSort("desc"));
       }
       if (valueSort === 2) {
-        setUrlParametrSort("title");
-        setOrderSort("asc");
+        dispatch(setUrlParameterSort("title"));
+        dispatch(setOrderSort("asc"));
       }
     };
     changeSort();
@@ -115,21 +144,12 @@ function Home() {
         dispatch(setValueFilter(0));
       }
       if (valueFilter === 0) {
-        setUrlParametrFilter("");
-      } else setUrlParametrFilter(valueFilter);
+        dispatch(setUrlParameterFilter(""));
+      } else dispatch(setUrlParameterFilter(valueFilter));
     };
     changeFilter();
   }, [valueFilter, valueSearch, dispatch]);
 
-  React.useEffect(() => {
-    const nameLink = qs.stringify({
-      urlParametrSort,
-      urlParametrFilter,
-      currentPage,
-    });
-    navigate(`?${nameLink}`);
-  }, [urlParametrSort, urlParametrFilter, currentPage, navigate]);
-  //d
   return (
     <main>
       <AppContext.Provider
