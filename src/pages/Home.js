@@ -129,7 +129,7 @@ function Home() {
     });
     navigate(`?${nameLink}`);
   }, [urlParametrSort, urlParametrFilter, currentPage, navigate]);
-
+  //d
   return (
     <main>
       <AppContext.Provider
