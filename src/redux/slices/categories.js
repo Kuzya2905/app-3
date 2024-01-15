@@ -19,10 +19,25 @@ export const categories = createSlice({
     setCurrentPage(state, action) {
       state.currentPage = action.payload;
     },
+    setCategories(state, action) {
+      state.valueFilter = Number(action.payload.urlParametrFilter);
+      
+      state.currentPage = Number(action.payload.currentPage);
+
+      if (action.payload.urlParametrSort === "rating") {
+        state.valueSort = 0;
+      }
+      if (action.payload.urlParametrSort === "price") {
+        state.valueSort = 1;
+      }
+      if (action.payload.urlParametrSort === "title") {
+        state.valueSort = 2;
+      }
+    },
   },
 });
 
-export const { setValueFilter, setValueSort, setCurrentPage } =
+export const { setValueFilter, setValueSort, setCurrentPage, setCategories } =
   categories.actions;
 
 export default categories.reducer;

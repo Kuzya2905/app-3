@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
@@ -7,8 +7,11 @@ import AppContext from "../Context";
 
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { setValueFilter } from "../redux/slices/categories";
-import { setCurrentPage } from "../redux/slices/pagination";
+import {
+  setValueFilter,
+  setCurrentPage,
+  setCategories,
+} from "../redux/slices/categories";
 
 import Сategories from "../components/Сategories/index";
 import Pagination from "../components/Pagination/Pagination";
@@ -17,6 +20,8 @@ import PizzaBlock from "../components/Pizza-block";
 function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [urlSearch, setUrlSearch] = useState(false);
+
   const { valueSearch, visibleItems, setItemsPizza, setValueSearch } =
     useContext(AppContext);
 
@@ -31,7 +36,7 @@ function Home() {
   const [urlParametrFilter, setUrlParametrFilter] = React.useState("");
 
   //Pagintaion
-  const currentPage = useSelector((state) => state.pagination.currentPage);
+  const currentPage = useSelector((state) => state.categories.currentPage);
   const [itemsPerPage] = React.useState(4);
   const lastItemIndex = currentPage * itemsPerPage;
   const firstItemIndex = lastItemIndex - itemsPerPage;
@@ -53,13 +58,40 @@ function Home() {
       }
       window.scrollTo(0, 0);
     }
-    getItems();
-  }, [urlParametrSort, urlParametrFilter, orderSort, setItemsPizza]);
+    if (urlSearch) {
+      getItems();
+    }
+  }, [
+    urlParametrSort,
+    urlParametrFilter,
+    urlSearch,
+    orderSort,
+    setItemsPizza,
+    dispatch,
+  ]);
+
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.slice(1));
+      dispatch(setCategories(params));
+    }
+    setUrlSearch(true);
+  }, [dispatch]);
+
+  // Pagination
+  function paginate(pageNumber) {
+    dispatch(setCurrentPage(pageNumber));
+  }
+
+  React.useEffect(() => {
+    if (visibleItems.length <= 4 && visibleItems.length > 0) {
+      dispatch(setCurrentPage(1));
+    }
+  }, [valueFilter, valueSearch, visibleItems, dispatch]);
 
   // Sort;
   React.useEffect(() => {
     const changeSort = () => {
-      dispatch(setCurrentPage(1));
       if (valueSort === 0) {
         setUrlParametrSort("rating");
         setOrderSort("desc");
@@ -83,22 +115,11 @@ function Home() {
         dispatch(setValueFilter(0));
       }
       if (valueFilter === 0) {
-        setUrlParametrFilter(``);
+        setUrlParametrFilter("");
       } else setUrlParametrFilter(valueFilter);
     };
     changeFilter();
   }, [valueFilter, valueSearch, dispatch]);
-
-  // Pagination
-  React.useEffect(() => {
-    dispatch(setCurrentPage(1));
-  }, [valueFilter, valueSearch, dispatch]);
-  //
-
-  function paginate(pageNumber) {
-    dispatch(setCurrentPage(pageNumber));
-  }
-  //
 
   React.useEffect(() => {
     const nameLink = qs.stringify({
@@ -108,6 +129,7 @@ function Home() {
     });
     navigate(`?${nameLink}`);
   }, [urlParametrSort, urlParametrFilter, currentPage, navigate]);
+
   return (
     <main>
       <AppContext.Provider
