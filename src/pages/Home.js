@@ -3,10 +3,9 @@ import axios from "axios";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 
-import AppContext from "../Context";
+import { AppContext, AppHomeContext } from "../Context";
 
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   setValueFilter,
   setCurrentPage,
@@ -27,13 +26,8 @@ function Home() {
   const dispatch = useDispatch();
   const [isLocationSearch, setIsLocationSearch] = useState(false);
 
-  const {
-    valueSearch,
-    visibleItems,
-    setItemsPizza,
-    setValueSearch,
-    setUrlLocationSearch,
-  } = useContext(AppContext);
+  const { valueSearch, visibleItems, setItemsPizza, setValueSearch } =
+    useContext(AppContext);
 
   //Loading items per page
   const [loadingItems, setLoadingItems] = React.useState(true);
@@ -60,14 +54,12 @@ function Home() {
         currentPage,
       });
       navigate(`?${nameLink}`);
-      setUrlLocationSearch(`?${nameLink}`);
     }
   }, [
     urlParameterSort,
     urlParameterFilter,
     currentPage,
     isLocationSearch,
-    setUrlLocationSearch,
     navigate,
   ]);
 
@@ -152,7 +144,7 @@ function Home() {
 
   return (
     <main>
-      <AppContext.Provider
+      <AppHomeContext.Provider
         value={{
           valueSort,
           valueFilter,
@@ -171,7 +163,7 @@ function Home() {
           <PizzaBlock />
           <Pagination />
         </section>
-      </AppContext.Provider>
+      </AppHomeContext.Provider>
     </main>
   );
 }

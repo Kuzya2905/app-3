@@ -1,5 +1,5 @@
 import React from "react";
-import AppContext from "../../Context";
+import { AppContext } from "../../Context";
 
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -10,9 +10,8 @@ function Сategories() {
 
   const dispatch = useDispatch();
 
-  const { setValueSearch } = React.useContext(AppContext);
-
-  const [stateDropDown, setStateDropDown] = React.useState(false);
+  const { setValueSearch, stateDropDown, setStateDropDown } =
+    React.useContext(AppContext);
 
   const sort = ["популярности", "цене", "алфавиту"];
   const filter = [
@@ -23,6 +22,20 @@ function Сategories() {
     "Острые",
     "Закрытые",
   ];
+
+  const sortRef = React.useRef();
+
+  React.useEffect(() => {
+    const clickOutside = (e) => {
+      if (!e.composedPath().includes(sortRef.current)) {
+        setStateDropDown(false);
+      }
+    };
+    document.body.addEventListener("click", clickOutside);
+    return () => {
+      document.body.removeEventListener("click", clickOutside);
+    };
+  }, [setStateDropDown]);
 
   return (
     <div className="filter-sort">
@@ -40,7 +53,7 @@ function Сategories() {
           </button>
         ))}
       </div>
-      <div className="sort">
+      <div className="sort" ref={sortRef}>
         <div className="dropdown">
           <button
             className="btn"

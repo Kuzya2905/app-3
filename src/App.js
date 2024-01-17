@@ -4,16 +4,16 @@ import Header from "./components/Header";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import { Routes, Route } from "react-router-dom";
-import AppContext from "./Context";
+import { AppContext } from "./Context";
 
 function App() {
   const [itemsPizza, setItemsPizza] = React.useState([]);
   const [visibleItems, setVisibleItems] = React.useState([]);
 
   const [valueSearch, setValueSearch] = React.useState("");
-  const [urlLocationSearch, setUrlLocationSearch] = React.useState();
+  const [stateDropDown, setStateDropDown] = React.useState(false);
   return (
-    <div className="App">
+    <div className="App" onClick={(e) => {}}>
       <div className="canvas">
         <div className="wrapper">
           <AppContext.Provider
@@ -24,8 +24,8 @@ function App() {
               setValueSearch,
               visibleItems,
               setVisibleItems,
-              urlLocationSearch,
-              setUrlLocationSearch,
+              stateDropDown,
+              setStateDropDown,
             }}
           >
             <Header />

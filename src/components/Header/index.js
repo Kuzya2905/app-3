@@ -3,13 +3,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Search from "../Search";
 import { Route, Routes } from "react-router-dom";
-import AppContext from "../../Context";
+import { useSelector } from "react-redux";
 
 function Header() {
-  const { urlLocationSearch } = React.useContext(AppContext);
+  const addedItems = useSelector((state) => state.cart.items);
+  console.log(addedItems);
   return (
     <header>
-      <a href={`/${urlLocationSearch}`} className="header-left">
+      <a
+        href="/?urlParameterSort=rating&urlParameterFilter=&currentPage=1"
+        className="header-left"
+      >
         <img src="images/header/Logo.png" alt="" />
         <div className="info">
           <h1>REACT PIZZA</h1>
@@ -21,11 +25,14 @@ function Header() {
       </Routes>
       <Link to="/cart" className="header-right">
         <button className="button-1">
-          <span>520 ₽</span>
+          <span>
+            {addedItems.reduce((acc, item) => acc + item.price * item.count, 0)}{" "}
+            ₽
+          </span>
         </button>
         <button className="button-2">
           <CartSVG />
-          <span>3</span>
+          <span>{addedItems.reduce((acc, item) => acc + item.count, 0)} </span>
         </button>
       </Link>
     </header>

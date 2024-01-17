@@ -1,11 +1,14 @@
 import PlusSVG from "./SVG/PlusSVG";
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addItem } from "../../redux/slices/Cart";
 
-function Card({ title, price, imageUrl, types, sizes }) {
+function Card({ title, price, imageUrl, types, sizes, id }) {
   const [count, setCount] = React.useState(0);
   const [sizeActivePizza, setSizePizza] = React.useState(0);
   const [typeActivePizza, setTypePizza] = React.useState(types[0]);
   const typeNames = ["тонкое", "традиционное"];
+  const dispatch = useDispatch();
 
   return (
     <div className="pizza-card">
@@ -45,7 +48,13 @@ function Card({ title, price, imageUrl, types, sizes }) {
       </div>
       <div className="info-2">
         <span className="price">от {price} ₽</span>
-        <button className="add" onClick={() => setCount((prev) => prev + 1)}>
+        <button
+          className="add"
+          onClick={() => {
+            setCount((prev) => prev + 1);
+            dispatch(addItem({ title, price, imageUrl, types, sizes, id }));
+          }}
+        >
           <PlusSVG />
           <span>Добавить</span>
           <span className="count">{count}</span>

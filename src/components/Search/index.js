@@ -1,5 +1,5 @@
 import React from "react";
-import AppContext from "../../Context";
+import { AppContext } from "../../Context";
 
 function Search() {
   const { valueSearch, setValueSearch, setVisibleItems, itemsPizza } =

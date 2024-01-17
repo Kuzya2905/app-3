@@ -1,9 +1,9 @@
 import React from "react";
-import AppContext from "../../Context";
+import { AppHomeContext } from "../../Context";
 
 export default function Pagination() {
   const { paginate, visibleItems, itemsPerPage, currentPage } =
-    React.useContext(AppContext);
+    React.useContext(AppHomeContext);
 
   const pageNumbers = [];
 

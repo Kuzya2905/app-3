@@ -1,12 +1,14 @@
-import MinusSVG from "./Cart-SVG/MinusSVG.js";
-import PlusSVG from "./Cart-SVG/PlusSVG.js";
-import DeleteSVG from "./Cart-SVG/DeleteSVG.js";
 import CheckMark from "./Cart-SVG/Сheck-markSVG.js";
 import BinSVG from "./Cart-SVG/BinSVG.js";
+import { useSelector } from "react-redux";
+import ItemCart from "../components/ItemCart/ItemCart.js";
 
 import { Link } from "react-router-dom";
 
 function Cart() {
+  const { items } = useSelector((state) => state.cart);
+  console.log(items);
+
   return (
     <div className="cart">
       <div className="top">
@@ -21,60 +23,10 @@ function Cart() {
       </div>
       <section className="cart-list">
         <section className="list-pizzas">
-          <div className="pizza">
-            <div className="info">
-              <img src="./images/cart/pizza.png" alt="" />
-              <div className="text">
-                <h2>Сырный цыпленок</h2>
-                <span>тонкое тесто, 26 см.</span>
-              </div>
-            </div>
-            <div className="count">
-              <MinusSVG />
-              <span>2</span>
-              <PlusSVG />
-            </div>
-            <div className="price">770 ₽</div>
-            <div className="delete">
-              <DeleteSVG />
-            </div>
-          </div>
-          <div className="pizza">
-            <div className="info">
-              <img src="./images/cart/pizza.png" alt="" />
-              <div className="text">
-                <h2>Сырный цыпленок</h2>
-                <span>тонкое тесто, 26 см.</span>
-              </div>
-            </div>
-            <div className="count">
-              <MinusSVG />
-              <span>2</span>
-              <PlusSVG />
-            </div>
-            <div className="price">770 ₽</div>
-            <div className="delete">
-              <DeleteSVG />
-            </div>
-          </div>
-          <div className="pizza">
-            <div className="info">
-              <img src="./images/cart/pizza.png" alt="" />
-              <div className="text">
-                <h2>Сырный цыпленок</h2>
-                <span>тонкое тесто, 26 см.</span>
-              </div>
-            </div>
-            <div className="count">
-              <MinusSVG />
-              <span>2</span>
-              <PlusSVG />
-            </div>
-            <div className="price">770 ₽</div>
-            <div className="delete">
-              <DeleteSVG />
-            </div>
-          </div>
+          {items.map((item) => {
+            console.log(item);
+            return <ItemCart {...item} key={item.id} />;
+          })}
         </section>
       </section>
       <div className="bottom">

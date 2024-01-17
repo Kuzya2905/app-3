@@ -514,6 +514,9 @@ button {
             display: flex;
             align-items: center;
             width: 360px;
+            img {
+              width: 130px;
+            }
             .text {
               margin-left: 10px;
               h2 {
