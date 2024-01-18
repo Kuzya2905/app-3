@@ -6,8 +6,8 @@ import { Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function Header() {
-  const addedItems = useSelector((state) => state.cart.items);
-  console.log(addedItems);
+  const { totalPrice, totalCount } = useSelector((state) => state.cart);
+
   return (
     <header>
       <a
@@ -25,14 +25,11 @@ function Header() {
       </Routes>
       <Link to="/cart" className="header-right">
         <button className="button-1">
-          <span>
-            {addedItems.reduce((acc, item) => acc + item.price * item.count, 0)}{" "}
-            ₽
-          </span>
+          <span>{totalPrice}₽</span>
         </button>
         <button className="button-2">
           <CartSVG />
-          <span>{addedItems.reduce((acc, item) => acc + item.count, 0)} </span>
+          <span>{totalCount} </span>
         </button>
       </Link>
     </header>

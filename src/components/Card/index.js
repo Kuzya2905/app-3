@@ -1,14 +1,18 @@
 import PlusSVG from "./SVG/PlusSVG";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { addItem } from "../../redux/slices/Cart";
+import { useDispatch } from "react-redux";
+import { addItem, setTotalPrice, setTotalCount } from "../../redux/slices/Cart";
 
 function Card({ title, price, imageUrl, types, sizes, id }) {
   const [count, setCount] = React.useState(0);
-  const [sizeActivePizza, setSizePizza] = React.useState(0);
-  const [typeActivePizza, setTypePizza] = React.useState(types[0]);
+  const [activeSize, setActiveSize] = React.useState(0);
+  const [activeType, setActiveType] = React.useState(types[0]);
   const typeNames = ["тонкое", "традиционное"];
   const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(setTotalPrice());
+    dispatch(setTotalCount());
+  }, [count, dispatch]);
 
   return (
     <div className="pizza-card">
@@ -20,9 +24,9 @@ function Card({ title, price, imageUrl, types, sizes, id }) {
             return (
               <button
                 onClick={() => {
-                  setTypePizza(index);
+                  setActiveType(index);
                 }}
-                className={typeActivePizza === index ? "active" : ""}
+                className={activeType === index ? "active" : ""}
                 key={index}
               >
                 {typeNames[typeId]}
@@ -35,9 +39,9 @@ function Card({ title, price, imageUrl, types, sizes, id }) {
             return (
               <button
                 onClick={(e) => {
-                  setSizePizza(index);
+                  setActiveSize(index);
                 }}
-                className={sizeActivePizza === index ? "active" : ""}
+                className={activeSize === index ? "active" : ""}
                 key={index}
               >
                 {size} см.
@@ -52,7 +56,16 @@ function Card({ title, price, imageUrl, types, sizes, id }) {
           className="add"
           onClick={() => {
             setCount((prev) => prev + 1);
-            dispatch(addItem({ title, price, imageUrl, types, sizes, id }));
+            dispatch(
+              addItem({
+                title,
+                price,
+                imageUrl,
+                types: types[activeType],
+                sizes: sizes[activeSize],
+                id,
+              })
+            );
           }}
         >
           <PlusSVG />

@@ -537,15 +537,20 @@ button {
             display: flex;
             align-items: center;
             gap: 10px;
-            svg {
-              cursor: pointer;
-              &:hover {
-                path {
-                  fill: white;
-                }
-                circle {
-                  stroke: #FE5F1E;
-                  fill: #FE5F1E;
+            button {
+              border: none;
+              background: none;
+              padding: 0;
+              svg {
+                cursor: pointer;
+                &:hover {
+                  path {
+                    fill: white;
+                  }
+                  circle {
+                    stroke: #FE5F1E;
+                    fill: #FE5F1E;
+                  }
                 }
               }
             }
