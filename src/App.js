@@ -7,9 +7,7 @@ import { Routes, Route } from "react-router-dom";
 import { AppContext } from "./Context";
 
 function App() {
-  const [itemsPizza, setItemsPizza] = React.useState([]);
   const [visibleItems, setVisibleItems] = React.useState([]);
-
   const [valueSearch, setValueSearch] = React.useState("");
   const [stateDropDown, setStateDropDown] = React.useState(false);
   return (
@@ -18,8 +16,6 @@ function App() {
         <div className="wrapper">
           <AppContext.Provider
             value={{
-              itemsPizza,
-              setItemsPizza,
               valueSearch,
               setValueSearch,
               visibleItems,

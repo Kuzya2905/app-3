@@ -8,14 +8,15 @@ import {
   setTotalCount,
 } from "../redux/slices/Cart.js";
 import { Link } from "react-router-dom";
-import EmptyCart from "../components/EmptyCart/EmptyCart.js";
 
 function Cart() {
-  const { items, totalPrice, totalCount } = useSelector((state) => state.cart);
+  const { itemsCart, totalPrice, totalCount } = useSelector(
+    (state) => state.cart
+  );
   const dispatch = useDispatch();
   return (
     <>
-      {items.length ? (
+      {itemsCart.length ? (
         <div className="cart">
           <div className="top">
             <div className="title">
@@ -35,7 +36,7 @@ function Cart() {
           </div>
           <section className="cart-list">
             <section className="list-pizzas">
-              {items.map((item, index) => {
+              {itemsCart.map((item, index) => {
                 return <ItemCart {...item} index={index} key={index} />;
               })}
             </section>

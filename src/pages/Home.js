@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import axios from "axios";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 
@@ -16,6 +15,7 @@ import {
   setOrderSort,
   setUrlParameterFilter,
 } from "../redux/slices/UrlParameters";
+import { fetchPizzas } from "../redux/slices/PizzaSlice";
 
 import Сategories from "../components/Сategories/index";
 import Pagination from "../components/Pagination/Pagination";
@@ -28,9 +28,6 @@ function Home() {
 
   const { valueSearch, visibleItems, setItemsPizza, setValueSearch } =
     useContext(AppContext);
-
-  //Loading items per page
-  const [loadingItems, setLoadingItems] = React.useState(true);
 
   //Filter and sort
   const { valueFilter, valueSort } = useSelector((state) => state.categories);
@@ -74,17 +71,9 @@ function Home() {
   //Get items from backend
   React.useEffect(() => {
     async function getItems() {
-      try {
-        setLoadingItems(true);
-        const { data } = await axios.get(
-          `https://65776583197926adf62e373f.mockapi.io/Items?sortBy=${urlParameterSort}&order=${orderSort}&category=${urlParameterFilter}`
-        );
-        setItemsPizza(data);
-        setLoadingItems(false);
-      } catch (error) {
-        alert("Что-то пошло не так");
-        console.error("Ошибка запроса данных");
-      }
+      dispatch(
+        fetchPizzas({ urlParameterSort, orderSort, urlParameterFilter })
+      );
       window.scrollTo(0, 0);
     }
     if (isLocationSearch) {
@@ -150,7 +139,6 @@ function Home() {
           valueFilter,
           setValueSearch,
           visibleItems,
-          loadingItems,
           paginate,
           itemsPerPage,
           currentPage,

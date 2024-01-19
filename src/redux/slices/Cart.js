@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   totalPrice: 0,
   totalCount: 0,
-  items: [],
+  itemsCart: [],
 };
 
 export const cart = createSlice({
@@ -11,7 +11,7 @@ export const cart = createSlice({
   initialState,
   reducers: {
     addItem(state, action) {
-      const findIdenticalItem = state.items.find(
+      const findIdenticalItem = state.itemsCart.find(
         (item) =>
           item.id === action.payload.id &&
           item.sizes === action.payload.sizes &&
@@ -20,39 +20,42 @@ export const cart = createSlice({
       if (findIdenticalItem) {
         findIdenticalItem.count++;
       } else {
-        state.items.push({ ...action.payload, count: 1 });
+        state.itemsCart.push({ ...action.payload, count: 1 });
       }
     },
     setTotalPrice(state) {
-      state.totalPrice = state.items.reduce(
+      state.totalPrice = state.itemsCart.reduce(
         (acc, item) => acc + item.price * item.count,
         0
       );
     },
     setTotalCount(state) {
-      state.totalCount = state.items.reduce((acc, item) => acc + item.count, 0);
+      state.totalCount = state.itemsCart.reduce(
+        (acc, item) => acc + item.count,
+        0
+      );
     },
     deleteItem(state, action) {
-      state.items = state.items.filter(
+      state.itemsCart = state.itemsCart.filter(
         (item, index) => index !== action.payload
       );
     },
     clearCart(state) {
-      state.items = [];
+      state.itemsCart = [];
     },
     minusCount(state, action) {
-      const findItem = state.items.find(
+      const findItem = state.itemsCart.find(
         (item, index) => index === action.payload
       );
       if (findItem.count > 1) {
         findItem.count--;
       } else
-        state.items = state.items.filter(
+        state.itemsCart = state.itemsCart.filter(
           (item, index) => index !== action.payload
         );
     },
     plusCount(state, action) {
-      const findItem = state.items.find(
+      const findItem = state.itemsCart.find(
         (item, index) => index === action.payload
       );
       findItem.count++;

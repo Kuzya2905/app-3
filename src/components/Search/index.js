@@ -1,21 +1,23 @@
 import React from "react";
 import { AppContext } from "../../Context";
+import { useSelector } from "react-redux";
 
 function Search() {
-  const { valueSearch, setValueSearch, setVisibleItems, itemsPizza } =
+  const { itemsPizzas } = useSelector((state) => state.pizzaSlice);
+  const { valueSearch, setValueSearch, setVisibleItems } =
     React.useContext(AppContext);
 
   React.useEffect(() => {
     function searchItems(value) {
       setVisibleItems(
-        itemsPizza.filter(
+        itemsPizzas.filter(
           (elem) => elem.title.toUpperCase().indexOf(value.toUpperCase()) !== -1
         )
       );
     }
 
     searchItems(valueSearch);
-  }, [valueSearch, itemsPizza, setVisibleItems]);
+  }, [valueSearch, itemsPizzas, setVisibleItems]);
   return (
     <div className="search-panel">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
