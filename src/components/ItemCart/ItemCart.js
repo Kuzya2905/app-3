@@ -9,7 +9,7 @@ import {
   setTotalCount,
   minusCount,
   plusCount,
-} from "../../redux/slices/Cart.js";
+} from "../../redux/slices/cart.js";
 
 function ItemCart({ title, count, imageUrl, types, sizes, price, index }) {
   const dispatch = useDispatch();

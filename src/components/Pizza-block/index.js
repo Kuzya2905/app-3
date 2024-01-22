@@ -2,12 +2,11 @@ import React from "react";
 
 import ItemContentLoader from "../Item-content-loader";
 import Card from "../Card";
-import { AppHomeContext } from "../../Context";
 import { useSelector } from "react-redux";
 
 function PizzaBlock() {
-  const { currentItems } = React.useContext(AppHomeContext);
   const { status } = useSelector((state) => state.pizzaSlice);
+  const { currentItems } = useSelector((state) => state.pagination);
   return (
     <div className="pizza-cards">
       {status === "loading" ? (

@@ -1,17 +1,21 @@
 import React from "react";
-import { AppContext } from "../../Context";
 
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { setValueFilter, setValueSort } from "../../redux/slices/Categories";
+import {
+  setValueFilter,
+  setValueSort,
+  setDropMenu,
+  setDropMenuToReverse,
+} from "../../redux/slices/filterAndSort";
+import { setValueSearch } from "../../redux/slices/visibleItems";
 
-function Сategories() {
-  const { valueFilter, valueSort } = useSelector((state) => state.categories);
-
+function FilterAndSort() {
+  const { valueFilter, valueSort } = useSelector(
+    (state) => state.filterAndSort
+  );
+  const { dropMenu } = useSelector((state) => state.filterAndSort);
   const dispatch = useDispatch();
-
-  const { setValueSearch, stateDropDown, setStateDropDown } =
-    React.useContext(AppContext);
 
   const sort = ["популярности", "цене", "алфавиту"];
   const filter = [
@@ -28,14 +32,14 @@ function Сategories() {
   React.useEffect(() => {
     const clickOutside = (e) => {
       if (!e.composedPath().includes(sortRef.current)) {
-        setStateDropDown(false);
+        dispatch(setDropMenu(false));
       }
     };
     document.body.addEventListener("click", clickOutside);
     return () => {
       document.body.removeEventListener("click", clickOutside);
     };
-  }, [setStateDropDown]);
+  }, [dispatch]);
 
   return (
     <div className="filter-sort">
@@ -45,7 +49,7 @@ function Сategories() {
             key={index}
             onClick={() => {
               dispatch(setValueFilter(index));
-              setValueSearch("");
+              dispatch(setValueSearch(""));
             }}
             className={valueFilter === index ? "active" : ""}
           >
@@ -58,10 +62,10 @@ function Сategories() {
           <button
             className="btn"
             onClick={(e) => {
-              setStateDropDown((prev) => !prev);
+              dispatch(setDropMenuToReverse());
             }}
           >
-            {!stateDropDown ? (
+            {!dropMenu ? (
               <img className="img-open" src="/images/sort/vector.svg" alt="" />
             ) : (
               <img className="img-close" src="/images/sort/vector.svg" alt="" />
@@ -71,14 +75,14 @@ function Сategories() {
               <span className="dropdown-select">{sort[valueSort]}</span>
             </div>
           </button>
-          {stateDropDown && (
+          {dropMenu && (
             <ul className="dropdown-menu">
               {sort.map((item, index) => (
                 <button
                   key={index}
                   onClick={() => {
                     dispatch(setValueSort(index));
-                    setStateDropDown((prev) => !prev);
+                    dispatch(setDropMenuToReverse());
                   }}
                   className="dropdown-item"
                 >
@@ -92,4 +96,4 @@ function Сategories() {
     </div>
   );
 }
-export default Сategories;
+export default FilterAndSort;

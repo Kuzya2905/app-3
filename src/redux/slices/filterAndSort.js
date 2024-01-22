@@ -3,11 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   valueFilter: 0,
   valueSort: 0,
-  currentPage: 1,
+  dropMenu: false,
 };
 
-export const categories = createSlice({
-  name: "categories",
+export const filterAndSort = createSlice({
+  name: "filterAndSort",
   initialState,
   reducers: {
     setValueFilter(state, action) {
@@ -16,13 +16,9 @@ export const categories = createSlice({
     setValueSort(state, action) {
       state.valueSort = action.payload;
     },
-    setCurrentPage(state, action) {
-      state.currentPage = action.payload;
-    },
-    setCategories(state, action) {
-      state.valueFilter = Number(action.payload.urlParameterFilter);
 
-      state.currentPage = Number(action.payload.currentPage);
+    setFilterAndSortByUrl(state, action) {
+      state.valueFilter = Number(action.payload.urlParameterFilter);
 
       if (action.payload.urlParameterSort === "rating") {
         state.valueSort = 0;
@@ -34,10 +30,21 @@ export const categories = createSlice({
         state.valueSort = 2;
       }
     },
+    setDropMenu(state, action) {
+      state.dropMenu = action.payload;
+    },
+    setDropMenuToReverse(state) {
+      state.dropMenu = !state.dropMenu;
+    },
   },
 });
 
-export const { setValueFilter, setValueSort, setCurrentPage, setCategories } =
-  categories.actions;
+export const {
+  setValueFilter,
+  setValueSort,
+  setFilterAndSortByUrl,
+  setDropMenu,
+  setDropMenuToReverse,
+} = filterAndSort.actions;
 
-export default categories.reducer;
+export default filterAndSort.reducer;

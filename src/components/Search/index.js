@@ -1,23 +1,16 @@
 import React from "react";
-import { AppContext } from "../../Context";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { findItems, setValueSearch } from "../../redux/slices/visibleItems";
 
 function Search() {
   const { itemsPizzas } = useSelector((state) => state.pizzaSlice);
-  const { valueSearch, setValueSearch, setVisibleItems } =
-    React.useContext(AppContext);
+  const { valueSearch } = useSelector((state) => state.visibleItems);
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
-    function searchItems(value) {
-      setVisibleItems(
-        itemsPizzas.filter(
-          (elem) => elem.title.toUpperCase().indexOf(value.toUpperCase()) !== -1
-        )
-      );
-    }
+    dispatch(findItems(itemsPizzas));
+  }, [itemsPizzas, valueSearch, dispatch]);
 
-    searchItems(valueSearch);
-  }, [valueSearch, itemsPizzas, setVisibleItems]);
   return (
     <div className="search-panel">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -30,7 +23,7 @@ function Search() {
       <input
         className="search"
         placeholder="Поиск пиццы..."
-        onChange={(event) => setValueSearch(event.target.value)}
+        onChange={(event) => dispatch(setValueSearch(event.target.value))}
         value={valueSearch}
         type="search"
       />

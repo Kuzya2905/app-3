@@ -1,7 +1,7 @@
 import PlusSVG from "./SVG/PlusSVG";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addItem, setTotalPrice, setTotalCount } from "../../redux/slices/Cart";
+import { addItem, setTotalPrice, setTotalCount } from "../../redux/slices/cart";
 
 function Card({ title, price, imageUrl, types, sizes, id }) {
   const [count, setCount] = React.useState(0);

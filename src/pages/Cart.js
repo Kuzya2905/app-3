@@ -6,7 +6,7 @@ import {
   clearCart,
   setTotalPrice,
   setTotalCount,
-} from "../redux/slices/Cart.js";
+} from "../redux/slices/cart.js";
 import { Link } from "react-router-dom";
 
 function Cart() {
