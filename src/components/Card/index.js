@@ -2,6 +2,7 @@ import PlusSVG from "./SVG/PlusSVG";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { addItem, setTotalPrice, setTotalCount } from "../../redux/slices/cart";
+import { Link } from "react-router-dom";
 
 function Card({ title, price, imageUrl, types, sizes, id }) {
   const [count, setCount] = React.useState(0);
@@ -16,8 +17,10 @@ function Card({ title, price, imageUrl, types, sizes, id }) {
 
   return (
     <div className="pizza-card">
-      <img src={imageUrl} alt="" />
-      <h2>{title}</h2>
+      <Link to={`/pizza/${id}`}>
+        <img src={imageUrl} alt="" />
+        <h2>{title}</h2>
+      </Link>
       <div className="info">
         <div className="thickness">
           {types.map((typeId, index) => {
@@ -26,7 +29,7 @@ function Card({ title, price, imageUrl, types, sizes, id }) {
                 onClick={() => {
                   setActiveType(index);
                 }}
-                className={activeType === index ? "active" : ""}
+                className={activeType === types[index] ? "active" : ""}
                 key={index}
               >
                 {typeNames[typeId]}
@@ -51,7 +54,15 @@ function Card({ title, price, imageUrl, types, sizes, id }) {
         </div>
       </div>
       <div className="info-2">
-        <span className="price">от {price} ₽</span>
+        <span className="price">
+          {" "}
+          {activeSize === 0
+            ? price
+            : activeSize === 1
+            ? Math.round(price * 1.3)
+            : Math.round(price * 1.6)}{" "}
+          ₽
+        </span>
         <button
           className="add"
           onClick={() => {

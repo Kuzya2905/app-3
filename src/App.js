@@ -1,23 +1,20 @@
 import "./App.scss";
 import React from "react";
-import Header from "./components/Header";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
+import Pizza from "./pages/Pizza";
 import { Routes, Route } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
 
 function App() {
   return (
-    <div className="App" onClick={(e) => {}}>
-      <div className="canvas">
-        <div className="wrapper">
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />}></Route>
-            <Route path="/cart" element={<Cart />}></Route>
-          </Routes>
-        </div>
-      </div>
-    </div>
+    <Routes>
+      <Route path="*" element={<MainLayout />}>
+        <Route path="" element={<Home />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="pizza/:id" element={<Pizza />} />
+      </Route>
+    </Routes>
   );
 }
 

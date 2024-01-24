@@ -22,7 +22,7 @@ import PizzaBlock from "../components/Pizza-block";
 function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const [isLocationSearch, setIsLocationSearch] = useState(false);
 
   const { valueSearch } = useSelector((state) => state.visibleItems);
@@ -36,6 +36,15 @@ function Home() {
   const { urlParameterSort, orderSort, urlParameterFilter } = useSelector(
     (state) => state.urlParameters
   );
+
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.slice(1));
+      dispatch(setFilterAndSortByUrl(params));
+      dispatch(setCurrentPageFromUrl(params));
+    }
+    setIsLocationSearch(true);
+  }, [dispatch]);
 
   React.useEffect(() => {
     if (isLocationSearch) {
@@ -53,15 +62,6 @@ function Home() {
     isLocationSearch,
     navigate,
   ]);
-
-  React.useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.slice(1));
-      dispatch(setFilterAndSortByUrl(params));
-      dispatch(setCurrentPageFromUrl(params));
-    }
-    setIsLocationSearch(true);
-  }, [dispatch]);
 
   //Get items from backend
   React.useEffect(() => {

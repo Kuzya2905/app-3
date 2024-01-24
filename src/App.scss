@@ -23,17 +23,14 @@ button {
   line-height: normal;
   color: black;
 }
-.App {
-  padding-top: 43px;
-  padding-bottom: 43px;
-}
 .canvas {
   max-width: 1340px;
-  margin: auto;
+  margin: 43px auto;
   background: #FFF;
   box-shadow: 0px 15px 20px 0px rgba(0, 0, 0, 0.03);
   border-radius: 10px;
   padding: 0px 40px  40px;
+  
   @media (max-width: 400px){
     padding: 0px 5px 30px 5px;
   }
@@ -126,7 +123,7 @@ button {
           color: white;
           border-right: 1px solid rgba(255, 255, 255, 0.25);
           width: 100%;
-          padding: 3px 0px 0px 0;
+          padding: 3px 0px 0px 5px;
           height: 25px;
         }
       }
@@ -303,20 +300,24 @@ button {
         }
         .pizza-card {
           margin: auto;
-          img {
-            margin-left: 13px;
-            width: 259px;
-            height: 260px;
-          }
           text-align: center;
           width: 280px;
           min-height: 459px;
-          h2 {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: 0.2px;
-            margin-bottom: 22px;
-            margin-top: 10px;
+          a {
+            display: flex;
+            flex-direction: column;
+            img {
+              margin-left: 13px;
+              width: 259px;
+              height: 260px;
+            }
+            h2 {
+              font-size: 20px;
+              font-weight: 800;
+              letter-spacing: 0.2px;
+              margin-bottom: 22px;
+              margin-top: 10px;
+            }
           }
           .info {
             width: 280px;
@@ -668,5 +669,190 @@ button {
 
     }
   }
-
 }
+
+.one-pizza-info {
+  margin: 40px auto;
+  img {
+    margin-left: 13px;
+    width: 259px;
+    height: 260px;
+  }
+  text-align: center;
+  width: 280px;
+  min-height: 459px;
+  h2 {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    margin-bottom: 22px;
+    margin-top: 10px;
+  }
+  .info {
+    width: 280px;
+    height: 85px;
+    border-radius: 10px;
+    background: #F3F3F3;
+    .thickness {
+      padding: 10px 6px 0px 10px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      button {
+        width: 132px;
+        height: 32px;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0px 15px 20px 0px rgba(0, 0, 0, 0.03);
+      }
+      button:hover {
+        background: #FFF;
+      }
+      .active {
+        background: #FFF;
+      }
+    }
+    .sizes {
+      padding: 7px 10px 0px 10px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      button {
+        width: 100%;
+        height: 32px;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0px 15px 20px 0px rgba(0, 0, 0, 0.03);
+      }
+      button:hover {
+        background: #FFF;
+      }
+      .active {
+        background: #FFF;
+      }
+    }
+  }
+  .info-2 {
+    margin-top: 17px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .price {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.33px;
+    }
+    .add {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px;
+      width: 155px;
+      height: 40px;
+      border-radius: 30px;
+      border: 1px solid #EB5A1E;
+      background: #FFF;
+      span {
+        color: #EB5A1E;
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .count {
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 23px;
+        height: 23px;
+        background-color: #EB5A1E;
+        border-radius: 15px;
+        padding: 2px;
+      }
+    }
+    .add:hover {
+      background: #EB5A1E;
+      span {
+        color: #ffffff;
+      }
+      .count {
+        background-color: #ffffff;
+        color: #EB5A1E;
+      }
+      .plus path {
+        fill: white;
+      }
+    }
+  }
+}
+.button-back {
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 211px;
+  height: 55px;
+  border-radius: 30px;
+  border: 1px solid #D3D3D3;
+  background: #FFF;
+  cursor: pointer;
+  svg {
+    margin-right: 15px;
+  }
+  span {
+    color: #CACACA;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+  }
+  &:hover {
+    background-color: #474747;
+    span {
+      color: white;
+    }
+    svg path {
+      stroke: #ffffff;
+    }
+  }
+}
+.cart-empty {
+  h1 {
+    margin-top: 163px;
+    text-align: center;
+  }
+  p {
+    margin: 10px auto;
+    width: 547px;
+    color: #777;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 145.4%; 
+    letter-spacing: 0.18px;
+  }
+  img {
+    display: block;
+    margin: 47px auto;
+    width: 300px;
+    height: 255px;
+    padding: 0px 0.97px 0.014px 0px;
+  }
+  button {
+    display: block;
+    margin: 87px auto;
+    width: 210px;
+    height: 46px;
+    border-radius: 30px;
+    background: #282828;
+    color: #FFF;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.24px;
+    &:hover{
+      background-color: #FFF;
+      color: #282828;
+      transition: 0.3s;
+    }
+  }
+}
+
