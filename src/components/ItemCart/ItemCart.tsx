@@ -2,17 +2,19 @@ import React from "react";
 import MinusSVG from "./SVG/MinusSVG.js";
 import DeleteSVG from "./SVG/DeleteSVG.js";
 import PlusSVG from "./SVG/PlusSVG.js";
-import { useDispatch } from "react-redux";
 import {
   deleteItem,
   setTotalPrice,
   setTotalCount,
   minusCount,
   plusCount,
-} from "../../redux/slices/cart.js";
+} from "../../redux/slices/cart.tsx";
+import { useAppDispatch } from "../../redux/store.tsx";
 
-function ItemCart({ title, count, imageUrl, types, sizes, price, index }) {
-  const dispatch = useDispatch();
+type itemCartProps = {title:string; count:number; imageUrl: string; types:number; sizes:number; price:number; index:number}
+
+const ItemCart:React.FC <itemCartProps> = ({ title, count, imageUrl, types, sizes, price, index }) => {
+  const dispatch = useAppDispatch();
   const typeNames = ["тонкое", "традиционное"];
 
   return (

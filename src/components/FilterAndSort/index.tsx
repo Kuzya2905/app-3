@@ -1,21 +1,22 @@
 import React from "react";
 
-import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import {
   setValueFilter,
   setValueSort,
   setDropMenu,
   setDropMenuToReverse,
-} from "../../redux/slices/filterAndSort";
-import { setValueSearch } from "../../redux/slices/visibleItems";
+} from "../../redux/slices/filterAndSort.tsx";
+import { setValueSearch } from "../../redux/slices/visibleItems.tsx";
 
-function FilterAndSort() {
+import {RootState, useAppDispatch} from '../../redux/store.tsx'
+
+const FilterAndSort:React.FC = ()=> {
   const { valueFilter, valueSort } = useSelector(
-    (state) => state.filterAndSort
+    (state:RootState) => state.filterAndSort
   );
-  const { dropMenu } = useSelector((state) => state.filterAndSort);
-  const dispatch = useDispatch();
+  const { dropMenu } = useSelector((state:RootState) => state.filterAndSort);
+  const dispatch = useAppDispatch();
 
   const sort = ["популярности", "цене", "алфавиту"];
   const filter = [
@@ -27,12 +28,12 @@ function FilterAndSort() {
     "Закрытые",
   ];
 
-  const sortRef = React.useRef();
+  const sortRef = React.useRef(null);
 
   React.useEffect(() => {
-    const clickOutside = (e) => {
-      if (!e.composedPath().includes(sortRef.current)) {
-        dispatch(setDropMenu(false));
+    const clickOutside = (e:MouseEvent) => {
+      if (sortRef.current && !e.composedPath().includes(sortRef.current)) {
+          dispatch(setDropMenu(false));
       }
     };
     document.body.addEventListener("click", clickOutside);
@@ -61,7 +62,7 @@ function FilterAndSort() {
         <div className="dropdown">
           <button
             className="btn"
-            onClick={(e) => {
+            onClick={() => {
               dispatch(setDropMenuToReverse());
             }}
           >

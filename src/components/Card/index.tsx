@@ -1,20 +1,22 @@
 import PlusSVG from "./SVG/PlusSVG";
 import React from "react";
-import { useDispatch } from "react-redux";
-import { addItem, setTotalPrice, setTotalCount } from "../../redux/slices/cart";
+import { addItem, setTotalPrice, setTotalCount } from "../../redux/slices/cart.tsx";
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../redux/store.tsx";
 
-function Card({ title, price, imageUrl, types, sizes, id }) {
+type typesCardProps = {title:string, price:number, imageUrl:string, types:number[], sizes:number[], id:string}
+
+const Card:React.FC<typesCardProps> = ({ title, price, imageUrl, types, sizes, id }) => {
   const [count, setCount] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
   const [activeType, setActiveType] = React.useState(types[0]);
   const typeNames = ["тонкое", "традиционное"];
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   React.useEffect(() => {
     dispatch(setTotalPrice());
     dispatch(setTotalCount());
   }, [count, dispatch]);
-
+  
   return (
     <div className="pizza-card">
       <Link to={`/pizza/${id}`}>
@@ -23,7 +25,8 @@ function Card({ title, price, imageUrl, types, sizes, id }) {
       </Link>
       <div className="info">
         <div className="thickness">
-          {types.map((typeId, index) => {
+          {types.map((typeId:number, index:number) => {
+            
             return (
               <button
                 onClick={() => {
@@ -38,7 +41,7 @@ function Card({ title, price, imageUrl, types, sizes, id }) {
           })}
         </div>
         <div className="sizes">
-          {sizes.map((size, index) => {
+          {sizes.map((size:number, index:number) => {
             return (
               <button
                 onClick={(e) => {

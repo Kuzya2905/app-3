@@ -1,6 +1,7 @@
 import ContentLoader from "react-content-loader";
+import React from "react";
 
-function ItemContentLoader() {
+const ItemContentLoader:React.FC = ()=> {
   return (
     <ContentLoader
       speed={2}

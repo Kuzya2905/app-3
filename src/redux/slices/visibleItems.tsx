@@ -1,5 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+type typesItem = {
+  category:number, 
+  id:string, 
+  imageUrl:string, 
+  price:number, 
+  rating:number, 
+  sizes:[], 
+  title:"Пепперони Фреш с перцем", 
+  types:[]
+}
+
 const initialState = {
   items: [],
   valueSearch: "",
@@ -11,9 +22,9 @@ export const visibleItems = createSlice({
   reducers: {
     findItems(state, action) {
       state.items = action.payload.filter(
-        (elem) =>
-          elem.title.toUpperCase().indexOf(state.valueSearch.toUpperCase()) !==
-          -1
+        (elem:typesItem) =>{
+          return elem.title.toUpperCase().includes(state.valueSearch.toUpperCase())
+        }
       );
     },
     setValueSearch(state, action) {

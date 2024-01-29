@@ -2,39 +2,40 @@ import React, { useState } from "react";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector} from "react-redux";
 import {
   setValueFilter,
   setFilterAndSortByUrl,
-} from "../redux/slices/filterAndSort";
+} from "../redux/slices/filterAndSort.tsx";
 import {
   setUrlParameterSort,
   setOrderSort,
   setUrlParameterFilter,
-} from "../redux/slices/urlParameters";
-import { setCurrentPageFromUrl } from "../redux/slices/pagination";
-import { fetchPizzas } from "../redux/slices/pizzaSlice";
+} from "../redux/slices/urlParameters.tsx";
+import { setCurrentPageFromUrl } from "../redux/slices/pagination.tsx";
+import { fetchPizzas } from "../redux/slices/pizzaSlice.tsx";
 
-import FilterAndSort from "../components/FilterAndSort/index";
-import Pagination from "../components/Pagination/Pagination";
-import PizzaBlock from "../components/Pizza-block";
+import FilterAndSort from "../components/FilterAndSort/index.tsx";
+import Pagination from "../components/Pagination/Pagination.tsx";
+import PizzaBlock from "../components/Pizza-block/index.tsx";
+import { RootState, useAppDispatch } from "../redux/store.tsx";
 
 function Home() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [isLocationSearch, setIsLocationSearch] = useState(false);
 
-  const { valueSearch } = useSelector((state) => state.visibleItems);
-  const { currentPage } = useSelector((state) => state.pagination);
+  const { valueSearch } = useSelector((state:RootState) => state.visibleItems);
+  const { currentPage } = useSelector((state:RootState) => state.pagination);
 
   //Filter and sort
   const { valueFilter, valueSort } = useSelector(
-    (state) => state.filterAndSort
+    (state:RootState) => state.filterAndSort
   );
 
   const { urlParameterSort, orderSort, urlParameterFilter } = useSelector(
-    (state) => state.urlParameters
+    (state:RootState) => state.urlParameters
   );
 
   React.useEffect(() => {

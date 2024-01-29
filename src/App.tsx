@@ -1,10 +1,10 @@
 import "./App.scss";
 import React from "react";
-import Home from "./pages/Home";
-import Cart from "./pages/Cart";
-import Pizza from "./pages/Pizza";
+import Home from "./pages/Home.tsx";
+import Cart from "./pages/Cart.tsx";
+import Pizza from "./pages/Pizza.tsx";
 import { Routes, Route } from "react-router-dom";
-import MainLayout from "./layouts/MainLayout";
+import MainLayout from "./layouts/MainLayout.tsx";
 
 function App() {
   return (

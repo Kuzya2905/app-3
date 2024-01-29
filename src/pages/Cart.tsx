@@ -1,19 +1,22 @@
+import React from 'react'
 import CheckMark from "./Cart-SVG/Сheck-markSVG.js";
 import BinSVG from "./Cart-SVG/BinSVG.js";
-import { useSelector, useDispatch } from "react-redux";
-import ItemCart from "../components/ItemCart/ItemCart.js";
+import { useSelector} from "react-redux";
+import ItemCart from "../components/ItemCart/ItemCart.tsx";
 import {
   clearCart,
   setTotalPrice,
   setTotalCount,
-} from "../redux/slices/cart.js";
+} from "../redux/slices/cart.tsx";
 import { Link } from "react-router-dom";
+import { RootState, useAppDispatch } from '../redux/store.tsx';
 
-function Cart() {
+const Cart: React.FC = () => {
   const { itemsCart, totalPrice, totalCount } = useSelector(
-    (state) => state.cart
+    (state:RootState) => state.cart
   );
-  const dispatch = useDispatch();
+
+  const dispatch = useAppDispatch();
   return (
     <>
       {itemsCart.length ? (

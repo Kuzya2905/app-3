@@ -1,22 +1,22 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setCurrentPage } from "../../redux/slices/pagination";
-import { setCurrentItems } from "../../redux/slices/pagination";
+import { useSelector} from "react-redux";
+import { setCurrentPage, setCurrentItems } from "../../redux/slices/pagination.tsx";
+import { RootState, useAppDispatch } from "../../redux/store.tsx";
 
-export default function Pagination() {
-  const { items } = useSelector((state) => state.visibleItems);
-  const { valueFilter } = useSelector((state) => state.filterAndSort);
-  const { valueSearch } = useSelector((state) => state.visibleItems);
-  const dispatch = useDispatch();
+const Pagination: React.FC = () => {
+  const { items } = useSelector((state:RootState) => state.visibleItems);
+  const { valueFilter } = useSelector((state:RootState) => state.filterAndSort);
+  const { valueSearch } = useSelector((state:RootState) => state.visibleItems);
+  const dispatch = useAppDispatch();
   const { currentPage, itemsPerPage } = useSelector(
-    (state) => state.pagination
+    (state:RootState) => state.pagination
   );
 
   React.useEffect(() => {
     dispatch(setCurrentItems(items));
   }, [items, currentPage, dispatch]);
 
-  function paginate(pageNumber) {
+  function paginate(pageNumber:number) {
     dispatch(setCurrentPage(pageNumber));
   }
 
@@ -26,10 +26,11 @@ export default function Pagination() {
     }
   }, [valueFilter, valueSearch, items, dispatch]);
 
-  const pageNumbers = [];
+  const pageNumbers:number[] = [];
 
   for (let i = 1; i <= Math.ceil(items.length / itemsPerPage); i++) {
-    pageNumbers.push(i);
+      pageNumbers.push(i);
+    
   }
 
   return (
@@ -47,4 +48,6 @@ export default function Pagination() {
       </ul>
     </div>
   );
-}
+};
+
+export default Pagination;

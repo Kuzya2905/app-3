@@ -1,6 +1,28 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface cartStates {
+  itemsCart: { title: string,
+    price: number,
+    imageUrl: string,
+    types: number,
+    sizes: number,
+    id: string,
+    count: number}[],
+  totalPrice: number,
+  totalCount: number
+}
+
+type typesItemCart = { 
+  title: string,
+  price: number,
+  imageUrl: string,
+  types: number,
+  sizes: number,
+  id: string,
+  count?: number
+}
+
+const initialState:cartStates = {
   totalPrice: 0,
   totalCount: 0,
   itemsCart: [],
@@ -10,7 +32,7 @@ export const cart = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addItem(state, action) {
+    addItem(state, action: PayloadAction<typesItemCart>) {
       const findIdenticalItem = state.itemsCart.find(
         (item) =>
           item.id === action.payload.id &&
@@ -22,43 +44,49 @@ export const cart = createSlice({
       } else {
         state.itemsCart.push({ ...action.payload, count: 1 });
       }
+      
     },
+    
     setTotalPrice(state) {
       state.totalPrice = state.itemsCart.reduce(
         (acc, item) => acc + item.price * item.count,
         0
       );
     },
+
     setTotalCount(state) {
       state.totalCount = state.itemsCart.reduce(
         (acc, item) => acc + item.count,
         0
       );
     },
-    deleteItem(state, action) {
+
+    deleteItem(state, action: PayloadAction<number>) {
       state.itemsCart = state.itemsCart.filter(
         (item, index) => index !== action.payload
       );
     },
+
     clearCart(state) {
       state.itemsCart = [];
     },
-    minusCount(state, action) {
+
+    minusCount(state, action: PayloadAction<number>) {
       const findItem = state.itemsCart.find(
         (item, index) => index === action.payload
       );
-      if (findItem.count > 1) {
+      if (findItem && findItem.count > 1) {
         findItem.count--;
       } else
         state.itemsCart = state.itemsCart.filter(
           (item, index) => index !== action.payload
         );
     },
-    plusCount(state, action) {
+    plusCount(state, action: PayloadAction<number>) {
       const findItem = state.itemsCart.find(
         (item, index) => index === action.payload
       );
-      findItem.count++;
+      findItem && findItem.count++
     },
   },
 });

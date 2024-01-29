@@ -1,11 +1,12 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { findItems, setValueSearch } from "../../redux/slices/visibleItems";
+import { useSelector } from "react-redux";
+import { findItems, setValueSearch } from "../../redux/slices/visibleItems.tsx";
+import { RootState, useAppDispatch } from "../../redux/store.tsx";
 
-function Search() {
-  const { itemsPizzas } = useSelector((state) => state.pizzaSlice);
-  const { valueSearch } = useSelector((state) => state.visibleItems);
-  const dispatch = useDispatch();
+const Search: React.FC = () => {
+  const { itemsPizzas } = useSelector((state:RootState) => state.pizzaSlice);
+  const { valueSearch } = useSelector((state:RootState) => state.visibleItems);
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     dispatch(findItems(itemsPizzas));
@@ -29,6 +30,6 @@ function Search() {
       />
     </div>
   );
-}
+};
 
 export default Search;

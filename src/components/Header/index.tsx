@@ -1,12 +1,13 @@
 import CartSVG from "./SVG/CartSVG";
 import React from "react";
 import { Link } from "react-router-dom";
-import Search from "../Search";
+import Search from "../Search/index.tsx";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store.tsx";
 
-function Header() {
-  const { totalPrice, totalCount } = useSelector((state) => state.cart);
+const Header:React.FC = ()=> {
+  const { totalPrice, totalCount } = useSelector((state:RootState) => state.cart);
 
   const location = useLocation();
 

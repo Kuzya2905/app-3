@@ -1,23 +1,31 @@
 import PlusSVG from "../components/Card/SVG/PlusSVG";
-import CheckMark from "../pages/Cart-SVG/Сheck-markSVG";
+import CheckMark from "./Cart-SVG/Сheck-markSVG";
 import React from "react";
-import { useDispatch } from "react-redux";
-import { addItem, setTotalPrice, setTotalCount } from "../redux/slices/cart";
+import { addItem, setTotalPrice, setTotalCount } from "../redux/slices/cart.tsx";
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { useAppDispatch } from "../redux/store.tsx";
 
-function Pizza() {
-  const [pizza, setPizza] = React.useState();
+const Pizza: React.FC = ()=> {
+  const [pizza, setPizza] = React.useState<{
+    imageUrl: 'string';
+    title: 'string';
+    types: number[];
+    sizes: number[];
+    price: number;
+    id: number;
+  }>();
   const [count, setCount] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
   const [activeType, setActiveType] = React.useState(0);
   const typeNames = ["тонкое", "традиционное"];
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   React.useEffect(() => {
     dispatch(setTotalPrice());
     dispatch(setTotalCount());
   }, [count, dispatch]);
-
+  
+  
   const params = useParams();
   const navigate = useNavigate();
 
@@ -65,7 +73,7 @@ function Pizza() {
               {pizza.sizes.map((size, index) => {
                 return (
                   <button
-                    onClick={(e) => {
+                    onClick={() => {
                       setActiveSize(index);
                     }}
                     className={activeSize === index ? "active" : ""}
@@ -90,7 +98,7 @@ function Pizza() {
                     imageUrl: pizza.imageUrl,
                     types: pizza.types[activeType],
                     sizes: pizza.sizes[activeSize],
-                    id: pizza.id,
+                    id: String(pizza.id),
                   })
                 );
               }}
