@@ -11,7 +11,7 @@ import { setValueSearch } from "../../redux/slices/visibleItems.tsx";
 
 import {RootState, useAppDispatch} from '../../redux/store.tsx'
 
-const FilterAndSort:React.FC = ()=> {
+const FilterAndSort:React.FC = React.memo(()=> {
   const { valueFilter, valueSort } = useSelector(
     (state:RootState) => state.filterAndSort
   );
@@ -25,7 +25,7 @@ const FilterAndSort:React.FC = ()=> {
     "Вегетарианская",
     "Гриль",
     "Острые",
-    "Закрытые",
+    "Закрытые", 
   ];
 
   const sortRef = React.useRef(null);
@@ -96,5 +96,5 @@ const FilterAndSort:React.FC = ()=> {
       </div>
     </div>
   );
-}
+})
 export default FilterAndSort;

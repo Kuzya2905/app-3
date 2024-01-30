@@ -1,6 +1,6 @@
 import React from 'react'
-import CheckMark from "./Cart-SVG/Сheck-markSVG.js";
-import BinSVG from "./Cart-SVG/BinSVG.js";
+import CheckMark from "./Cart-SVG/Сheck-markSVG.tsx";
+import BinSVG from "./Cart-SVG/BinSVG.tsx";
 import { useSelector} from "react-redux";
 import ItemCart from "../components/ItemCart/ItemCart.tsx";
 import {

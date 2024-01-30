@@ -1,4 +1,4 @@
-import PlusSVG from "./SVG/PlusSVG";
+import PlusSVG from "./SVG/PlusSVG.tsx";
 import React from "react";
 import { addItem, setTotalPrice, setTotalCount } from "../../redux/slices/cart.tsx";
 import { Link } from "react-router-dom";

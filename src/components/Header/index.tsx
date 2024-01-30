@@ -1,4 +1,4 @@
-import CartSVG from "./SVG/CartSVG";
+import CartSVG from "./SVG/CartSVG.tsx";
 import React from "react";
 import { Link } from "react-router-dom";
 import Search from "../Search/index.tsx";

@@ -1,5 +1,5 @@
-import PlusSVG from "../components/Card/SVG/PlusSVG";
-import CheckMark from "./Cart-SVG/Сheck-markSVG";
+import PlusSVG from "../components/Card/SVG/PlusSVG.tsx";
+import CheckMark from "./Cart-SVG/Сheck-markSVG.tsx";
 import React from "react";
 import { addItem, setTotalPrice, setTotalCount } from "../redux/slices/cart.tsx";
 import axios from "axios";

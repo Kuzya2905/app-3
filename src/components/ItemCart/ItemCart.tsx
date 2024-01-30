@@ -1,7 +1,7 @@
 import React from "react";
-import MinusSVG from "./SVG/MinusSVG.js";
-import DeleteSVG from "./SVG/DeleteSVG.js";
-import PlusSVG from "./SVG/PlusSVG.js";
+import MinusSVG from "./SVG/MinusSVG.tsx";
+import DeleteSVG from "./SVG/DeleteSVG.tsx";
+import PlusSVG from "./SVG/PlusSVG.tsx";
 import {
   deleteItem,
   setTotalPrice,
