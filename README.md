@@ -1,5 +1,5 @@
 # Магазин пиццерии
-Для устновки пакетов используйте команду npm install --legacy-peer-deps
+Для установки пакетов используйте команду npm install --legacy-peer-deps
 
 # Getting Started with Create React App
 
